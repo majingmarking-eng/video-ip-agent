@@ -1,758 +1,759 @@
 # Video Analysis Skill
 
-## 1. Skill Name
+## Version
 
-`video-analysis`
+`1.1`
 
-## 2. Purpose
+## Purpose
 
-Analyze short-form videos and extract the underlying content structure, storytelling techniques, hook patterns, speaking style, emotional progression, and reusable content mechanisms.
+Analyze a short-form video and convert its content mechanisms into structured data that can be reused by downstream AI agents.
 
-The goal is **not to copy the video's wording or content**.
+The goal is NOT to copy the creator.
 
-The goal is to understand:
+The goal is to identify:
 
-> Why does this video work, how is it structured, and what principles can be reused to create original content?
-
-This Skill is designed for short-form content platforms such as:
-
-- 微信视频号
-- 抖音
-- TikTok
-- Instagram Reels
-- YouTube Shorts
+* Why the video attracts attention
+* How the video maintains retention
+* How the information is structured
+* How the creator communicates
+* What emotional mechanisms are used
+* What makes the content valuable or shareable
+* Which structural principles can be reused to create original content
 
 ---
 
-## 3. When to Use
+# 1. Input
 
-Use this Skill when the user provides:
+The Skill may receive one or more of the following:
 
-- A video
-- A video URL
-- A transcript
-- Video subtitles
-- A screenshot sequence
-- Audio/transcription extracted from a video
+* Video file
+* Video URL
+* Video transcript
+* Video subtitles
+* Audio transcript
+* Screenshots from the video
 
-Use this Skill when the user asks:
+If both video and transcript are available, use both.
 
-- 分析这个视频
-- 为什么这个视频好
-- 拆解这个爆款视频
-- 分析这个视频的结构
-- 学习这个账号的表达方式
-- 提取这个视频的套路
-- 找出这个视频的 Hook
-- 总结这个视频的内容模式
+If information cannot be reliably determined, return:
 
-Do NOT directly generate a new script unless explicitly requested.
+`unknown`
+
+Never invent information.
 
 ---
 
-# 4. Core Principle
+# 2. Analysis Process
 
-Analyze the **mechanism**, not the surface wording.
+Analyze the video in the following order:
 
-Do not simply summarize what the creator said.
-
-Instead identify:
-
-1. What makes the viewer stop scrolling?
-2. What makes the viewer continue watching?
-3. What information creates curiosity?
-4. How is the story or argument structured?
-5. Where does the emotional intensity change?
-6. What creates credibility?
-7. What makes the viewer want to comment, share, or follow?
-8. Which elements are reusable in completely original content?
+1. Basic information
+2. Hook
+3. Content structure
+4. Retention mechanisms
+5. Information density
+6. Storytelling
+7. Speaking style
+8. Emotional progression
+9. Credibility
+10. CTA
+11. Viral potential
+12. Reusable patterns
+13. Content templates
 
 ---
 
-# 5. Analysis Framework
-
-Analyze the video through the following dimensions.
-
-## 5.1 Basic Information
+# 3. Basic Information
 
 Extract:
 
-- Estimated duration
-- Topic
-- Content category
-- Target audience
-- Main promise
-- Main conclusion
-- Content format
+* estimated_duration_seconds
+* topic
+* target_audience
+* content_category
+* content_format
+* main_promise
+* main_message
 
-Possible content formats:
+Allowed content_category examples:
 
-- Story
-- Opinion
-- Educational
-- Case study
-- News/commentary
-- Personal experience
-- Contrarian opinion
-- List
-- Tutorial
-- Interview
-- Product demonstration
-- Emotional narrative
+* business
+* education
+* entertainment
+* lifestyle
+* technology
+* finance
+* marketing
+* personal_development
+* news
+* commentary
+* other
+
+Allowed content_format examples:
+
+* story
+* opinion
+* educational
+* case_study
+* tutorial
+* list
+* personal_experience
+* product_demo
+* interview
+* commentary
+* other
 
 ---
 
-# 6. Hook Analysis
+# 4. Hook Analysis
 
-Analyze the first 1–5 seconds separately.
+Analyze the first 1–5 seconds.
 
 Identify:
 
-### Hook Type
+### hook_type
 
-Choose one or more:
+Possible values:
 
-- Curiosity
-- Contrarian
-- Fear
-- Surprise
-- Money
-- Status
-- Conflict
-- Personal story
-- Question
-- Strong opinion
-- Data/statistic
-- Result-first
-- Mistake
-- Warning
+* curiosity
+* contrarian
+* question
+* surprise
+* fear
+* money
+* status
+* conflict
+* personal_story
+* statistic
+* result_first
+* mistake
+* warning
+* other
 
-### Hook Formula
+### hook_formula
 
-Describe the underlying formula.
+Describe the underlying structure.
 
 Example:
 
-> Unexpected claim → information gap → promise of explanation
+`unexpected_claim → curiosity_gap → promised_explanation`
 
-Do NOT merely repeat the original sentence.
+Do not reproduce the creator's exact wording.
 
-### Hook Strength
+### hook_strength
 
 Score from 1–10.
 
-Explain:
+### curiosity_gap
 
-- Why someone would stop scrolling
-- What curiosity gap is created
-- Whether the viewer immediately understands the topic
-- Whether the hook promises a meaningful payoff
+Explain what information the viewer wants to know after the hook.
 
----
+### scroll_stop_reason
 
-# 7. Content Structure Analysis
-
-Break the entire video into logical segments.
-
-Use this structure:
-
-| Time | Function | Content Purpose |
-|---|---|---|
-| 0–3s | Hook | Stop scrolling |
-| 3–10s | Context | Establish problem |
-| 10–25s | Development | Provide information |
-| 25–40s | Turning point | Create surprise |
-| 40–55s | Insight | Deliver value |
-| 55–60s | CTA | Encourage action |
-
-Do not assume these exact timings.
-
-Adapt the structure to the actual video.
-
-Identify:
-
-- Hook
-- Context
-- Problem
-- Conflict
-- Development
-- Evidence
-- Turning point
-- Insight
-- Conclusion
-- CTA
+Explain why the viewer might stop scrolling.
 
 ---
 
-# 8. Information Density
+# 5. Content Structure
 
-Estimate:
+Break the video into logical segments.
 
-- Number of meaningful information points
-- Information points per 10 seconds
-- Number of examples
-- Number of facts/data points
-- Number of opinion statements
-- Number of emotional statements
+Each segment must contain:
 
-Classify the video:
+* start_second
+* end_second
+* function
+* summary
+* purpose
 
-- Low density
-- Medium density
-- High density
-- Very high density
+Allowed function values:
 
-Explain whether the information density helps or hurts retention.
+* hook
+* context
+* problem
+* conflict
+* development
+* evidence
+* example
+* turning_point
+* insight
+* conclusion
+* cta
+* other
 
----
-
-# 9. Storytelling Analysis
-
-If the video contains a story, identify:
-
-### Story Components
-
-- Main character
-- Situation
-- Goal
-- Conflict
-- Unexpected event
-- Turning point
-- Resolution
-- Lesson
-
-Identify whether the creator:
-
-- Starts in the middle of the story
-- Delays important information
-- Uses suspense
-- Uses specific details
-- Uses personal experience
-- Creates an open loop
+Focus on structural function rather than exact wording.
 
 ---
 
-# 10. Retention Mechanisms
+# 6. Retention Mechanisms
 
-Identify every mechanism used to keep viewers watching.
-
-Examples:
-
-### Open Loop
-
-The creator raises a question but delays the answer.
-
-### Information Gap
-
-The viewer knows there is an answer but does not know what it is.
-
-### Pattern Interrupt
-
-The content suddenly changes direction.
-
-### Escalation
-
-Each section becomes more important or surprising.
-
-### Delayed Payoff
-
-The promised result is revealed later.
-
-### New Question
-
-One answer creates another question.
-
-### Emotional Shift
-
-The emotional state changes.
-
-### Specificity
-
-Concrete numbers, names, places, examples, or details increase attention.
-
-For each mechanism, explain:
-
-> Where it appears → how it works → why it may improve retention.
-
----
-
-# 11. Speaking Style Analysis
-
-Analyze the creator's verbal style.
-
-## Sentence Style
-
-Determine:
-
-- Short vs long sentences
-- Simple vs complex vocabulary
-- Conversational vs formal
-- Question frequency
-- Statement frequency
-- Use of repetition
-- Use of pauses
-- Use of rhetorical questions
-
-## Tone
-
-Classify:
-
-- Calm
-- Excited
-- Aggressive
-- Friendly
-- Authoritative
-- Humorous
-- Sarcastic
-- Emotional
-- Conversational
-- Analytical
-
-## Language Characteristics
-
-Identify:
-
-- Common sentence patterns
-- Frequently repeated expressions
-- Transitional phrases
-- Emotional words
-- Numbers
-- Analogies
-- Metaphors
-- Questions
-- Commands
-
-Do not reproduce distinctive phrases unnecessarily.
-
-Extract the underlying communication pattern instead.
-
----
-
-# 12. Emotional Curve
-
-Estimate the emotional intensity throughout the video.
-
-For example:
-
-```text
-Opening:        High
-Context:        Medium
-Conflict:       High
-Development:    Medium
-Twist:          Very High
-Conclusion:     High
-CTA:            Medium
-```
-
-Identify the major emotional changes.
-
-Explain:
-
-> What caused each emotional change?
-
----
-
-# 13. Credibility Mechanisms
-
-Identify how the creator establishes authority.
+Identify mechanisms that encourage viewers to continue watching.
 
 Possible mechanisms:
 
-- Personal experience
-- Data
-- Customer case
-- Professional expertise
-- Demonstration
-- Specific numbers
-- Social proof
-- Named examples
-- Historical evidence
-- First-hand observation
+* open_loop
+* curiosity_gap
+* information_gap
+* delayed_payoff
+* escalation
+* pattern_interrupt
+* emotional_shift
+* new_question
+* surprise
+* specificity
+* storytelling
+* conflict
+* promised_result
+* other
 
-Determine which credibility mechanism is strongest.
+For each mechanism provide:
 
----
-
-# 14. CTA Analysis
-
-Identify the ending mechanism.
-
-Possible CTA:
-
-- Follow
-- Comment
-- Share
-- Save
-- DM
-- Buy
-- Continue watching
-- Visit profile
-- No explicit CTA
-
-Analyze whether the CTA feels:
-
-- Natural
-- Forced
-- Relevant
-- Rewarding
-- Transactional
-
-Explain why.
+* mechanism
+* location_seconds
+* explanation
+* strength_1_to_10
 
 ---
 
-# 15. Viral Mechanism Analysis
+# 7. Information Density
 
-Answer:
+Estimate:
 
-> Why might this video perform well?
+* meaningful_information_points
+* examples_count
+* data_points_count
+* opinion_points_count
+* information_density
 
-Evaluate:
+Allowed information_density:
 
-### Stop Power
+* low
+* medium
+* high
+* very_high
 
-Would the first few seconds interrupt scrolling?
-
-### Retention
-
-Does the structure continuously create reasons to keep watching?
-
-### Value
-
-Does the viewer receive useful information?
-
-### Emotion
-
-Does the video create:
-
-- Surprise
-- Anger
-- Curiosity
-- Inspiration
-- Fear
-- Humor
-- Recognition
-
-### Shareability
-
-Would someone want to send this to another person?
-
-### Commentability
-
-Does the video naturally create disagreement, discussion, or personal stories?
-
-### Identity
-
-Does the viewer feel:
-
-> “This is talking about people like me.”
-
-Score each dimension from 1–10.
+Explain briefly whether the information density helps or hurts retention.
 
 ---
 
-# 16. Originality / Reusability Analysis
+# 8. Storytelling
+
+If the video contains a story, identify:
+
+* main_character
+* situation
+* goal
+* conflict
+* unexpected_event
+* turning_point
+* resolution
+* lesson
+
+If the video does not contain a meaningful story:
+
+`story_present = false`
+
+Do not force a story structure onto an educational or analytical video.
+
+---
+
+# 9. Speaking Style
+
+Analyze the creator's communication style.
+
+Extract:
+
+### sentence_style
+
+Possible values:
+
+* short
+* medium
+* long
+* mixed
+
+### vocabulary
+
+Possible values:
+
+* simple
+* conversational
+* professional
+* technical
+* mixed
+
+### tone
+
+Possible values:
+
+* friendly
+* authoritative
+* analytical
+* humorous
+* emotional
+* aggressive
+* calm
+* energetic
+* conversational
+* mixed
+
+### rhythm
+
+Possible values:
+
+* slow
+* medium
+* fast
+* variable
+
+Also identify:
+
+* rhetorical_questions
+* repetition
+* direct_address
+* numbers_usage
+* analogy_usage
+* command_usage
+
+Do not reproduce distinctive phrases from the creator.
+
+---
+
+# 10. Emotional Curve
+
+Estimate emotional intensity throughout the video.
+
+Return multiple stages.
+
+Each stage contains:
+
+* start_second
+* end_second
+* emotion
+* intensity_1_to_10
+* trigger
+
+Possible emotions:
+
+* curiosity
+* surprise
+* fear
+* excitement
+* anger
+* inspiration
+* amusement
+* confidence
+* recognition
+* neutral
+* other
+
+---
+
+# 11. Credibility
+
+Identify the primary credibility mechanisms.
+
+Possible values:
+
+* personal_experience
+* data
+* customer_case
+* demonstration
+* expertise
+* social_proof
+* specific_examples
+* authority_reference
+* none
+* other
+
+Return:
+
+* credibility_mechanisms
+* strongest_mechanism
+* credibility_strength_1_to_10
+
+---
+
+# 12. CTA
+
+Identify whether the video contains a CTA.
+
+Possible CTA types:
+
+* follow
+* comment
+* share
+* save
+* dm
+* purchase
+* visit_profile
+* watch_next
+* none
+* other
+
+Analyze:
+
+* cta_type
+* cta_strength_1_to_10
+* cta_naturalness_1_to_10
+
+---
+
+# 13. Viral Potential
+
+Score the following dimensions from 1–10:
+
+* hook_score
+* retention_score
+* value_score
+* emotion_score
+* shareability_score
+* commentability_score
+* audience_relevance_score
+
+Then calculate:
+
+`overall_viral_score`
+
+Use an approximate weighted evaluation:
+
+* hook: 20%
+* retention: 20%
+* value: 15%
+* emotion: 15%
+* shareability: 10%
+* commentability: 10%
+* relevance: 10%
+
+Do not claim that this is an actual platform algorithm score.
+
+It is an analytical estimate only.
+
+---
+
+# 14. Reusable Patterns
 
 Separate the video into:
 
-### Surface Elements
+## Surface Elements
 
-Elements that should NOT be copied:
+Do not recommend copying:
 
-- Exact wording
-- Exact examples
-- Unique stories
-- Specific jokes
-- Distinctive phrases
-- Creator-specific experiences
+* exact wording
+* unique story
+* creator-specific experience
+* distinctive jokes
+* distinctive phrases
+* unique examples
 
-### Structural Elements
+## Structural Elements
 
-Elements that can inspire original content:
+Identify reusable:
 
-- Hook pattern
-- Story structure
-- Information sequence
-- Emotional progression
-- CTA mechanism
-- Argument structure
-- Retention mechanism
+* hook pattern
+* argument structure
+* story structure
+* information sequence
+* emotional progression
+* retention mechanism
+* CTA mechanism
 
-Output:
+Return 3–10 reusable patterns.
 
-> Reusable principles
+Each pattern should contain:
 
-rather than:
-
-> Copyable sentences.
+* pattern_name
+* pattern_type
+* description
+* why_it_works
+* reuse_instruction
 
 ---
 
-# 17. Extract Content Templates
+# 15. Content Templates
 
-Convert the video's structure into reusable abstract templates.
+Convert the video's structure into abstract templates.
+
+Do not copy the original script.
+
+Each template contains:
+
+* template_name
+* use_case
+* structure
+* example_topic_placeholder
 
 Example:
 
-### Template A — Contrarian
-
 ```text
-Most people believe X.
+template_name:
+Contrarian Insight
 
-But the real situation is Y.
+use_case:
+Challenge a common belief.
 
-Here's what happened.
+structure:
+Common belief
+→
+Contrarian claim
+→
+Evidence
+→
+Unexpected explanation
+→
+Practical takeaway
 
-[Evidence / example]
-
-The reason is Z.
-
-So if you're doing X, you should consider Y.
+example_topic_placeholder:
+"Most people think [X], but [Y] is actually more important."
 ```
 
-### Template B — Story
-
-```text
-Something unexpected happened to me.
-
-At first I thought X.
-
-Then Y happened.
-
-That's when I realized Z.
-
-Here's the lesson.
-
-If you're facing X, pay attention to Y.
-```
-
-Templates must be generalized.
-
-Do not preserve the original creator's wording.
+Generate 1–5 templates.
 
 ---
 
-# 18. Output Format
+# 16. Final Diagnosis
 
-Return the analysis in this order:
+Answer three questions:
 
-## 1. One-Sentence Diagnosis
+### Why does this video work?
 
-Describe the core reason the video works.
+Provide 1–3 sentences.
 
-## 2. Video Profile
+### What should be reused?
 
-- Duration
-- Topic
-- Audience
-- Format
-- Main promise
+Provide 3–10 structural principles.
 
-## 3. Hook
+### What should NOT be copied?
 
-- Hook type
-- Hook mechanism
-- Hook strength
-- Curiosity gap
+Provide the main surface-level elements that are creator-specific.
 
-## 4. Structure
+---
 
-Provide a timeline breakdown.
+# 17. Standard JSON Output
 
-## 5. Retention Mechanisms
+The final output MUST contain a JSON object.
 
-List the mechanisms used.
+Use the following schema:
 
-## 6. Speaking Style
+```json
+{
+  "video_profile": {
+    "estimated_duration_seconds": null,
+    "topic": "",
+    "target_audience": "",
+    "content_category": "",
+    "content_format": "",
+    "main_promise": "",
+    "main_message": ""
+  },
 
-Describe:
+  "hook": {
+    "hook_type": "",
+    "hook_formula": "",
+    "hook_strength": 0,
+    "curiosity_gap": "",
+    "scroll_stop_reason": ""
+  },
 
-- Sentence style
-- Vocabulary
-- Tone
-- Rhythm
-- Rhetorical techniques
+  "structure": [
+    {
+      "start_second": 0,
+      "end_second": 0,
+      "function": "",
+      "summary": "",
+      "purpose": ""
+    }
+  ],
 
-## 7. Emotional Curve
+  "retention": [
+    {
+      "mechanism": "",
+      "location_seconds": "",
+      "explanation": "",
+      "strength": 0
+    }
+  ],
 
-Describe the major emotional changes.
+  "information_density": {
+    "meaningful_information_points": 0,
+    "examples_count": 0,
+    "data_points_count": 0,
+    "opinion_points_count": 0,
+    "level": ""
+  },
 
-## 8. Credibility
+  "storytelling": {
+    "story_present": false,
+    "main_character": "",
+    "situation": "",
+    "goal": "",
+    "conflict": "",
+    "unexpected_event": "",
+    "turning_point": "",
+    "resolution": "",
+    "lesson": ""
+  },
 
-Explain how trust is created.
+  "speaking_style": {
+    "sentence_style": "",
+    "vocabulary": "",
+    "tone": "",
+    "rhythm": "",
+    "rhetorical_questions": false,
+    "repetition": false,
+    "direct_address": false,
+    "numbers_usage": false,
+    "analogy_usage": false,
+    "command_usage": false
+  },
 
-## 9. CTA
+  "emotional_curve": [
+    {
+      "start_second": 0,
+      "end_second": 0,
+      "emotion": "",
+      "intensity": 0,
+      "trigger": ""
+    }
+  ],
 
-Analyze the ending.
+  "credibility": {
+    "mechanisms": [],
+    "strongest_mechanism": "",
+    "strength": 0
+  },
 
-## 10. Viral Score
+  "cta": {
+    "type": "",
+    "strength": 0,
+    "naturalness": 0
+  },
 
-Score:
+  "viral_potential": {
+    "hook_score": 0,
+    "retention_score": 0,
+    "value_score": 0,
+    "emotion_score": 0,
+    "shareability_score": 0,
+    "commentability_score": 0,
+    "audience_relevance_score": 0,
+    "overall_viral_score": 0
+  },
 
-- Hook
-- Retention
-- Value
-- Emotion
-- Shareability
-- Commentability
-- Identity
+  "reusable_patterns": [
+    {
+      "pattern_name": "",
+      "pattern_type": "",
+      "description": "",
+      "why_it_works": "",
+      "reuse_instruction": ""
+    }
+  ],
 
-Each from 1–10.
+  "content_templates": [
+    {
+      "template_name": "",
+      "use_case": "",
+      "structure": "",
+      "example_topic_placeholder": ""
+    }
+  ],
 
-## 11. Reusable Principles
+  "final_diagnosis": {
+    "why_it_works": "",
+    "what_to_reuse": [],
+    "what_not_to_copy": []
+  }
+}
+```
 
-Provide 5–10 principles that can be applied to original content.
+---
 
-## 12. Content Templates
+# 18. JSON Rules
 
-Extract 2–5 generalized templates.
+The JSON output must:
 
-## 13. Final Diagnosis
-
-Answer:
-
-> If we wanted to create 100 original videos inspired by this video's underlying mechanism, what should we keep?
+1. Always use valid JSON.
+2. Never include Markdown around the JSON when JSON-only output is requested.
+3. Use `null` when information is unavailable.
+4. Use arrays for multiple values.
+5. Use numbers for scores.
+6. Never invent timestamps that cannot be reasonably estimated.
+7. Never copy long portions of the original transcript.
+8. Never treat the viral score as an actual platform prediction.
 
 ---
 
 # 19. Multiple Video Mode
 
-When analyzing multiple videos, do NOT analyze them only independently.
+When multiple videos are provided:
 
-After individual analysis, perform a second-level analysis.
+First analyze every video independently.
 
-Identify:
+Then identify cross-video patterns.
 
-### Common Patterns
+Return:
 
-What appears repeatedly?
+* common_hook_patterns
+* common_structures
+* common_retention_mechanisms
+* common_speaking_patterns
+* common_emotional_patterns
+* common_cta_patterns
+* strongest_patterns
+* content_dna_candidates
 
-### High-Performance Patterns
+The output should allow another Agent to create a:
 
-Which structures appear in the strongest videos?
+`Content DNA Profile`
 
-### Hook Distribution
-
-Count the different hook types.
-
-### Structure Distribution
-
-Count the different content structures.
-
-### Speaking Style
-
-Identify recurring characteristics.
-
-### Retention Patterns
-
-Identify recurring retention mechanisms.
-
-### Content DNA
-
-Create a unified:
-
-> Content DNA Profile
-
-Example:
-
-```text
-CONTENT DNA
-
-Primary Hook:
-Contrarian + curiosity
-
-Primary Structure:
-Problem → story → unexpected insight → practical takeaway
-
-Speaking Style:
-Conversational + direct + short sentences
-
-Information Density:
-High
-
-Primary Emotion:
-Curiosity → surprise → confidence
-
-Credibility:
-Real cases + numbers
-
-CTA:
-Soft CTA
-
-Core Audience:
-US small business owners
-```
+for the creator or niche.
 
 ---
 
-# 20. Learning Mode
+# 20. Quality Control
 
-When analyzing 10 or more videos from the same creator or niche, identify:
+Before returning the result, verify:
 
-1. Repeated Hook patterns
-2. Repeated story structures
-3. Repeated topics
-4. Repeated emotional patterns
-5. Repeated CTA patterns
-6. Repeated vocabulary characteristics
-7. Repeated information density
-8. High-performing structural patterns
-
-Then produce:
-
-> **Creator Content Playbook**
-
-The playbook should describe the creator's content system without copying their actual scripts.
-
----
-
-# 21. Quality Control
-
-Before finalizing the analysis, check:
-
-- Did I analyze the first 3 seconds separately?
-- Did I identify the actual structure rather than merely summarize the video?
-- Did I identify retention mechanisms?
-- Did I distinguish surface elements from reusable structures?
-- Did I explain why the video may work?
-- Did I identify the target audience?
-- Did I analyze speaking style?
-- Did I analyze emotional progression?
-- Did I extract reusable templates?
-- Did I avoid unnecessary copying of distinctive wording?
-- If multiple videos were provided, did I identify cross-video patterns?
-
-If important information cannot be determined from the provided material, explicitly mark it as:
-
-> `Unknown / insufficient evidence`
-
-Do not invent information.
+* Hook analyzed separately
+* Structure identified
+* Retention mechanisms identified
+* Speaking style analyzed
+* Emotional curve analyzed
+* Credibility analyzed
+* CTA analyzed
+* Viral dimensions scored
+* Reusable patterns extracted
+* Content templates extracted
+* Surface elements separated from structural elements
+* JSON is valid
+* No unsupported assumptions
+* No unnecessary copying
 
 ---
 
-# 22. Core Output Principle
+# 21. Downstream Agents
 
-The final analysis should answer one question:
+This Skill is designed to provide structured input to:
 
-> **“What is the underlying system behind this video, and how can we use that system to create completely original content?”**
+* `content-dna`
+* `hook-generator`
+* `topic-generator`
+* `script-generator`
+* `personal-style`
+* `content-strategy`
+* `performance-analysis`
 
-The output should be useful as training data for downstream skills such as:
-
-- `hook-generation`
-- `topic-generation`
-- `script-generation`
-- `personal-style`
-- `content-strategy`
-- `performance-analysis`
+The output of this Skill should therefore remain structured, consistent, and machine-readable.
 
 ---
 
-# 23. Skill Version
+# 22. Core Principle
 
-Version: `1.0`
+The Skill should always answer:
 
-Status: `Experimental`
+> What is the underlying content mechanism behind this video, and how can that mechanism be used to create original content?
 
-Primary use:
+Analyze the system.
 
-> Short-form video reverse engineering and content-system extraction.
+Do not copy the creator.
